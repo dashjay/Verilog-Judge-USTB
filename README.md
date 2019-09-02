@@ -19,6 +19,16 @@ docker build . -t verilog-judge
 docker run verilog-judge -v ./modelsim_ase:/root/modelsim_ase -p 33778:5000
 ```
 
+[Modelsim_ase](http://114.55.92.2:1081/index.php?share/file&user=1&sid=upvg35qf)
+
+以上是modelsim的下载地址
+
+`MD5 (modelsim_ase.7z) = 69a73347f20b1535db67de68e7dd538d`
+
+`size:186M`
+
+解压后大小1.6GB
+
 >  内部指定的modelsim_ase来自FPGA微软的免费软件Quartus Lite 中的modelsim组件
 >
 > docker内部运行的端口是5000，开在外部
