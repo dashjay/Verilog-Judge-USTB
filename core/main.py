@@ -23,6 +23,9 @@ def judge():
 
     stim = form_dict['stim']
     write_string(stim,'stim.do')
+
+    if not getparam(stim):
+        return json.dumps({'status':0,'msg':'your stim do not add any wave!'})
     #编译
     os.system('rm cmpresult')
     cmpresult = cmp()
@@ -64,8 +67,18 @@ def diagram():
     getvar()
     os.system("./generate.sh top_module")
 
+def getparam(stim):
+    params = re.findall("wave (.*?)\n",stim)
+    if len(params) <= 0:
+        return False
+    sim_part = ""
+    for param in params:
+        sim_part = sim_part + 'add list -hexadecimal /top_module/' + param + '\n'
+    write_string(sim_part,'sim.do')
+    os.system('cat sim.do.example >> sim.do')
+    return True
+
 def getvar():
-    import re
 
     f = open("./top_module.v",'r')
     content = f.read()
