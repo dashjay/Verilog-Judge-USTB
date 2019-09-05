@@ -16,6 +16,7 @@ RUN buildDeps='glibc.i686 libX11.i686 libXext-devel.i686 libXft-devel.i686 libnc
     && yum install -y $buildDeps \
     && yum install -y $preSetup \
     && pip3 install flask \
+    && pip3 install wavedrom \
     && echo "export PATH="'$PATH'":/root/modelsim_ase/linuxaloem" >> /root/.bashrc \
     && rm epel-release-latest-7.noarch.rpm \
     && chmod +x /root/core/*.sh
