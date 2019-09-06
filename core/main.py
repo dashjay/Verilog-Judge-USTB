@@ -50,7 +50,7 @@ def judge():
         svg = render(signal)
 
     os.system('make clean')
-    return json.dumps({'status': code, 'cmpcode': 1, 'cmpresult': cmpresult, 'signal': signal, 'svg': svg}
+    return json.dumps({'status': code, 'cmpcode': 1, 'cmpresult': cmpresult, 'signal': signal, 'svg': svg})
 
 
 def write_string(file_string, filename):
