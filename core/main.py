@@ -1,7 +1,9 @@
 from flask import Flask, request, json, jsonify
 import os
 import re
+from grab import getvar
 import wavedrom
+from util import write_string, getparam, try_get
 app = Flask(__name__)
 
 
@@ -52,14 +54,6 @@ def judge():
     os.system('make clean')
     return json.dumps({'status': code, 'cmpcode': 1, 'cmpresult': cmpresult, 'signal': signal, 'svg': svg})
 
-
-def write_string(file_string, filename):
-    f=open(filename, 'w')
-    f.write(file_string)
-    f.flush()
-    f.close()
-
-
 def cmp():
     os.system("vlog top_module.v >> cmpresult")
     cmpresult=try_get('cmpresult')
@@ -75,55 +69,6 @@ def sim():
 def diagram():
     getvar()
     os.system("./generate.sh top_module")
-
-
-def getparam(stim):
-    params=re.findall("wave (.*?)\n", stim)
-    if len(params) <= 0:
-        return False
-    sim_part=""
-    for param in params:
-        sim_part=sim_part + 'add list -hexadecimal /top_module/' + param + '\n'
-    write_string(sim_part, 'sim.do')
-    os.system('cat sim.do.example >> sim.do')
-    return True
-
-
-def getvar():
-
-    f=open("./top_module.v", 'r')
-    content=f.read()
-
-    patten=r'top_module\((.*?)\)'
-
-    string=re.findall(patten, content, re.S)[0].split(',')
-    # print(string)
-    result=[]
-    for i in string:
-        if '[' in i:
-            var=re.findall('](.*?)$', i)[0]
-            result.append(var.strip())
-
-        else:
-            temp=i.split(" ")
-            index=-1
-
-            while(temp[index] == ''):
-                index=index - 1
-            result.append(temp[index].strip())
-    f=open('var_name', 'w')
-    for i in result:
-        f.write('{0} '.format(i))
-    f.close()
-
-
-def try_get(filename):
-    try:
-        file=open(filename, 'r')
-        return file.read()
-    except Exception as e:
-        print(e)
-        return ""
 
 
 def render(wave):

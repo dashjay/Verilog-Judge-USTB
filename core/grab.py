@@ -6,10 +6,10 @@ def getvar():
     f = open("./top_module.v",'r')
     content = f.read()
 
-    patten = r'top_module\((.*?)\)'
+    patten = r'top_module(.*?)'
 
-    string = re.findall(patten,content,re.S)[0].split(',')
-    #print(string)
+    string = re.findall(patten,content,re.S)[0].replace('(','').split(')','').split(',')
+    
     result = []
     for i in string:
         if '[' in i:
